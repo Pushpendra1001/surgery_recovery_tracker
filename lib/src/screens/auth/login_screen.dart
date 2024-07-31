@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:surgery_recovery_tracker/src/screens/MainScreen/main_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
 import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
 
 

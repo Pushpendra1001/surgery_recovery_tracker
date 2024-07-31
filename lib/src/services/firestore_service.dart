@@ -1,20 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:surgery_recovery_tracker/src/models/patient.dart';
+import 'package:surgery_recovery_tracker/src/models/user.dart';
+
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Create or update user data
+  // Set user data
   Future<void> setUserData(String uid, Map<String, dynamic> data) async {
-    await _db.collection('users').doc(uid).set(data, SetOptions(merge: true));
+    await _db.collection('users').doc(uid).set(data);
   }
 
-  // Get user data
-  Future<DocumentSnapshot> getUserData(String uid) async {
-    return await _db.collection('users').doc(uid).get();
+  // Add patient
+  Future<void> addPatient(PatientModel patient) async {
+    await _db.collection('patients').doc(patient.uid).set(patient.toMap());
   }
 
-  // Stream user data
-  Stream<DocumentSnapshot> streamUserData(String uid) {
-    return _db.collection('users').doc(uid).snapshots();
+  // Get patients
+  Stream<List<PatientModel>> getPatients() {
+    return _db.collection('patients').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => PatientModel.fromMap(doc.data())).toList();
+    });
+  }
+
+  // Get user by uid
+  Future<UserModel?> getUserByUid(String uid) async {
+    DocumentSnapshot snapshot = await _db.collection('users').doc(uid).get();
+    if (snapshot.exists) {
+      return UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
+    }
+    return null;
   }
 }
