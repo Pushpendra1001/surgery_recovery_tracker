@@ -1,8 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:surgery_recovery_tracker/firebase_options.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/login_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/registe_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/doctor/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  return runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home:  LoginScreen(),
     );
   }
 }

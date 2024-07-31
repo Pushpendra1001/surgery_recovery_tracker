@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779984113387",
+    "project_id": "surgeryrecoverytracker",
+    "storage_bucket": "surgeryrecoverytracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779984113387:android:a306818e9ecff55b9338ae",
+        "android_client_info": {
+          "package_name": "com.example.surgery_recovery_trac"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNEppV2KJl6Nt_ANQfQuQbVizNoQaB25Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
