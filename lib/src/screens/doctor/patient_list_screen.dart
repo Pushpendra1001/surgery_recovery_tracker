@@ -116,10 +116,10 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
             children: [
               ...day['tasks'].map<Widget>((task) => ListTile(
                 title: Text(task['description']),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => _editTask(index, task),
-                ),
+                // trailing: IconButton(
+                //   icon: Icon(Icons.edit),
+                //   onPressed: () => _editTask(index, task),
+                // ),
               )).toList(),
               ButtonBar(
                 children: [

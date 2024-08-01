@@ -18,8 +18,8 @@ class TrackingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildProgressChart(),
-            _buildTotalProgressChart(),
+            
+            
             _buildTasksPerDayChart(),
             _buildGrowthChart(),
             _buildHealthStatusCard(),
@@ -30,72 +30,8 @@ class TrackingPage extends StatelessWidget {
     );
   }
 
-  // Line Chart for Progress
-  Widget _buildProgressChart() {
-    return Container(
-      height: 200,
-      padding: EdgeInsets.all(16),
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(show: false),
-          titlesData: FlTitlesData(show: false),
-          borderData: FlBorderData(show: true),
-          minX: 0,
-          maxX: recoveryPlan.length.toDouble() - 1,
-          minY: 0,
-          maxY: 100,
-          lineBarsData: [
-            LineChartBarData(
-              spots: List.generate(recoveryPlan.length, (index) {
-                var day = recoveryPlan[index];
-                // Ensure conversion to double
-                double progressPercentage = double.tryParse(day['progressPercentage'].toString()) ?? 0.0;
-                return FlSpot(index.toDouble(), progressPercentage);
-              }),
-              isCurved: true,
-              color: Colors.blue,
-              dotData: FlDotData(show: false),
-              belowBarData: BarAreaData(show: true, color: Colors.lightBlue.shade300),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Circular Chart for Total Progress
-  Widget _buildTotalProgressChart() {
-    double totalProgress = recoveryPlan.fold(0.0, (sum, day) {
-      double progressPercentage = double.tryParse(day['progressPercentage'].toString()) ?? 0.0;
-      return sum + progressPercentage;
-    });
-    double averageProgress = totalProgress / recoveryPlan.length;
-
-    return Container(
-      height: 200,
-      padding: EdgeInsets.all(16),
-      child: PieChart(
-        PieChartData(
-          sections: [
-            PieChartSectionData(
-              color: Colors.blue,
-              value: averageProgress,
-              title: "${averageProgress.toStringAsFixed(1)}%",
-              radius: 60,
-            ),
-            PieChartSectionData(
-              color: Colors.grey,
-              value: 100 - averageProgress,
-              title: "",
-              radius: 60,
-            ),
-          ],
-          borderData: FlBorderData(show: false),
-          centerSpaceRadius: 50,
-        ),
-      ),
-    );
-  }
+ 
+ 
 
   // Bar Chart for Number of Tasks Per Day
   Widget _buildTasksPerDayChart() {
