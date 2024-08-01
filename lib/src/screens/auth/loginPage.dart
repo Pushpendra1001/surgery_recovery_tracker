@@ -13,30 +13,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
- 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   User? _user;
   String? _userRole;
-  final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
- @override
-  void initState() {
-    super.initState();
-    _checkUserStatus();
-  }
 
   @override
   void dispose() {
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  void _checkUserStatus() async {
+  Future<void> _checkUserStatus() async {
     _user = FirebaseAuth.instance.currentUser;
     if (_user != null) {
       // Fetch user role from Firestore
@@ -45,35 +38,41 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _userRole = userDoc['role'];
         });
+        _navigateBasedOnRole();
       }
+    }
+  }
+
+  void _navigateBasedOnRole() {
+    if (_userRole == 'admin') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminDashboard()));
+    } else if (_userRole == 'patient') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
+    } else if (_userRole == 'doctor') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorDashboard()));
+     
+    } else {
+      // Handle other roles or show an error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unknown role: $_userRole')),
+      );
     }
   }
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      User? user = await _auth.signInWithEmailAndPassword(emailController.text, passwordController.text);
-      if (user != null) {
-        String? role = _userRole;
-        
-          switch (role) {
-            case 'patient':
-              print(role);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
-              break;
-            case 'doctor':
-              print(role);
-
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorDashboard()));
-              break;
-            case 'admin':
-              print(role);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminDashboard()));
-              break;
-            default:
-              print("No role");
-              break;
-          }
-       
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        _user = userCredential.user;
+        await _checkUserStatus();
+      } catch (e) {
+        // Handle login error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: $e')),
+        );
       }
     }
   }

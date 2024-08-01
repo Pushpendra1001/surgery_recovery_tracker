@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 
 import 'package:surgery_recovery_tracker/src/screens/doctor/home_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/dashboard_screen.dart';
@@ -40,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     if (_user == null) {
-      return LoginScreen();
+      return LoginPage();
     }
 
     if (_userRole == null) {

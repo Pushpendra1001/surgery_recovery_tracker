@@ -1,58 +1,117 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:surgery_recovery_tracker/src/screens/MainScreen/main_screen.dart';
-import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
-import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
+// import 'package:surgery_recovery_tracker/src/screens/doctor/home_screen.dart';
+// import 'package:surgery_recovery_tracker/src/screens/hospital/dashboard_screen.dart';
+// import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
+// import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
 
+// class LoginPage extends StatefulWidget {
+//   @override
+//   State<LoginPage> createState() => _LoginPageState();
+// }
 
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+// class _LoginPageState extends State<LoginPage> {
+//   final AuthService _authService = AuthService();
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+//   final TextEditingController emailController = TextEditingController();
+//   final TextEditingController passwordController = TextEditingController();
+//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-class _LoginScreenState extends State<LoginScreen> {
-  final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+//   User? _user;
+//   String? _userRole;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Email'),
-              onChanged: (val) {
-                setState(() => email = val);
-              },
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-              onChanged: (val) {
-                setState(() => password = val);
-              },
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  User? user = await _auth.signInWithEmailAndPassword(email, password);
-                  if (user != null) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(),));
-                  }
-                }
-              },
-              child: Text('Login'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   void dispose() {
+//     emailController.dispose();
+//     passwordController.dispose();
+//     super.dispose();
+//   }
+
+//   Future<void> _checkUserStatus() async {
+//     _user = _authService.currentUser;
+//     if (_user != null) {
+//       // Fetch user role from Firestore
+//       DocumentSnapshot userDoc = await _firestore.collection('users').doc(_user!.uid).get();
+//       if (userDoc.exists) {
+//         setState(() {
+//           _userRole = userDoc['role'];
+//         });
+//         _navigateBasedOnRole();
+//       }
+//     }
+//   }
+
+//   void _navigateBasedOnRole() {
+//     if (_userRole == 'admin') {
+//       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminDashboard()));
+//     } else if (_userRole == 'patient') {
+//       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PatientDashboard()));
+//     } else if (_userRole == 'doctor') {
+//       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorDashboard()));
+     
+//     } else {
+//       // Handle other roles or show an error
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Unknown role: $_userRole')),
+//       );
+//     }
+//   }
+
+//   void _login() async {
+//     if (_formKey.currentState!.validate()) {
+//       try {
+//         UserCredential userCredential = await _authService.signInWithEmailAndPassword(
+//           emailController.text.trim(),
+//           passwordController.text.trim(),
+//         );
+//         _user = userCredential.user;
+//         await _checkUserStatus();
+//       } catch (e) {
+//         // Handle login error
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text('Login failed: $e')),
+//         );
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Form(
+//         key: _formKey,
+//         child: Column(
+//           children: [
+//             // Your form fields here
+//             TextFormField(
+//               controller: emailController,
+//               decoration: InputDecoration(labelText: 'Email'),
+//               validator: (value) {
+//                 if (value == null || value.isEmpty) {
+//                   return 'Please enter your email';
+//                 }
+//                 return null;
+//               },
+//             ),
+//             TextFormField(
+//               controller: passwordController,
+//               decoration: InputDecoration(labelText: 'Password'),
+//               obscureText: true,
+//               validator: (value) {
+//                 if (value == null || value.isEmpty) {
+//                   return 'Please enter your password';
+//                 }
+//                 return null;
+//               },
+//             ),
+//             ElevatedButton(
+//               onPressed: _login,
+//               child: Text('Login'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
