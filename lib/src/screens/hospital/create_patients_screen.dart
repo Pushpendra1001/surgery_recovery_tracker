@@ -281,63 +281,60 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
     );
   }
 
-  void _submitForm() async {
-      if (_formKey.currentState!.validate() && startDate != null && selectedDoctor != null) {
-        User? user = await _auth.registerWithEmailAndPassword(email, password);
-        if (user != null) {
-          PatientModel patient = PatientModel(
-            uid: user.uid,
-            name: name,
-            email: email,
-            disease: disease,
-            recoveryTimeInDays: recoveryTimeInDays,
-            recoveryChecklist: recoveryChecklist,
-            exerciseType: exerciseType,
-            password: password,
-            hospital: hospital,
-            startDate: startDate!,
-            endDate: endDate!,
-            dailyTasks: dailyTasks.map((task) => task['description'] as String).toList(),
-            assignedDoctor: selectedDoctor!,
-          );
-  
-          UserModel userModel = UserModel(
-            uid: user.uid,
-            email: email,
-            role: 'patient',
-          );
-          await _db.setUserData(userModel);
-          await _db.addPatient(patient);
-          
-          // Generate recovery plan
-          List<Map<String, dynamic>> recoveryPlan = [];
-          for (int i = 0; i < recoveryTimeInDays; i++) {
-            DateTime currentDate = startDate!.add(Duration(days: i));
-            List<Map<String, dynamic>> dayTasks = dailyTasks.where((task) => task['day'] == i + 1).toList();
-       
-            double progressPercentage = ((i + 1) / recoveryTimeInDays) * 100;
-            recoveryPlan.add({
-              'date': currentDate,
-              'tasks': dayTasks,
-              'progressPercentage': progressPercentage.toStringAsFixed(2),
-            });
-          }
-          
-          // Save recovery plan to Firestore
-          await FirebaseFirestore.instance
-              .collection('patients')
-              .doc(user.uid)
-              .collection('recoveryPlan')
-              .add({'plan': recoveryPlan});
-          
-          // Define recoveryPlanRef variable
-          var recoveryPlanRef = FirebaseFirestore.instance.collection('recoveryPlan');
-          
-          await recoveryPlanRef.doc('currentPlan').set({'plan': recoveryPlan});
-          _showCredentialsDialog();
-        }
+void _submitForm() async {
+  if (_formKey.currentState!.validate() && startDate != null && selectedDoctor != null) {
+    User? user = await _auth.registerWithEmailAndPassword(email, password);
+    if (user != null) {
+      PatientModel patient = PatientModel(
+        uid: user.uid,
+        name: name,
+        email: email,
+        disease: disease,
+        recoveryTimeInDays: recoveryTimeInDays,
+        recoveryChecklist: recoveryChecklist,
+        exerciseType: exerciseType,
+        password: password,
+        hospital: hospital,
+        startDate: startDate!,
+        endDate: endDate!,
+        dailyTasks: dailyTasks.map((task) => task['description'] as String).toList(),
+        assignedDoctor: selectedDoctor!,
+      );
+
+      UserModel userModel = UserModel(
+        uid: user.uid,
+        email: email,
+        role: 'patient',
+      );
+      await _db.setUserData(userModel);
+      await _db.addPatient(patient);
+      
+      // Generate recovery plan
+      List<Map<String, dynamic>> recoveryPlan = [];
+      for (int i = 0; i < recoveryTimeInDays; i++) {
+        DateTime currentDate = startDate!.add(Duration(days: i));
+        List<Map<String, dynamic>> dayTasks = dailyTasks.where((task) => task['day'] == i + 1).toList();
+   
+        double progressPercentage = ((i + 1) / recoveryTimeInDays) * 100;
+        recoveryPlan.add({
+          'date': currentDate,
+          'tasks': dayTasks,
+          'progressPercentage': progressPercentage.toStringAsFixed(2),
+        });
       }
+      
+      // Save recovery plan to Firestore
+      await FirebaseFirestore.instance
+          .collection('patients')
+          .doc(user.uid)
+          .collection('recoveryPlan')
+          .doc('plan')
+          .set({'plan': recoveryPlan});
+
+      _showCredentialsDialog();
     }
+  }
+}
 
   void _showCredentialsDialog() {
     showDialog(

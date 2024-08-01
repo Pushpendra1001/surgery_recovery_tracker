@@ -14,7 +14,7 @@ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get currentUser {
     return _firebaseAuth.currentUser;
   }
-  // Register with email and password
+  
   Future<User?> registerWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
@@ -28,21 +28,21 @@ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     }
   }
 
-  // Sign in with email and password
-  // Future<User?> signInWithEmailAndPassword(String email, String password) async {
-  //   try {
-  //     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     return userCredential.user;
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     return null;
-  //   }
-  // }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  // Sign out
+  
   Future<void> signOut() async {
     await _auth.signOut();
     print("Logged out");

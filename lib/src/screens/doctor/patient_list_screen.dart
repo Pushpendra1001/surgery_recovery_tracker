@@ -116,10 +116,10 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
             children: [
               ...day['tasks'].map<Widget>((task) => ListTile(
                 title: Text(task['description']),
-                // trailing: IconButton(
-                //   icon: Icon(Icons.edit),
-                //   onPressed: () => _editTask(index, task),
-                // ),
+                
+                
+                
+                
               )).toList(),
               ButtonBar(
                 children: [
@@ -221,18 +221,18 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
 
 Future<void> _updateRecoveryPlan() async {
   try {
-    // Reference to the specific patient document's recoveryPlan subcollection
+    
     CollectionReference recoveryPlanRef = _firestore
         .collection('patients')
         .doc(widget.patientId)
         .collection('recoveryPlan');
 
-    // Assuming each day has a unique document ID, use a method to update all days
+    
     for (var i = 0; i < recoveryPlan.length; i++) {
       var dayData = recoveryPlan[i];
-      // Document ID should be set to a unique identifier; here, we use the patient's ID and day index
+      
       await recoveryPlanRef
-          .doc('day_$i') // Replace with your document ID strategy if different
+          .doc('day_$i') 
           .set({'plan': dayData});
     }
   } catch (e) {

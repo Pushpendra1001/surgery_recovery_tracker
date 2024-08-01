@@ -131,7 +131,7 @@ class _CreateDoctorScreenState extends State<CreateDoctorScreen> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop(); // Return to previous screen
+                Navigator.of(context).pop(); 
               },
             ),
           ],

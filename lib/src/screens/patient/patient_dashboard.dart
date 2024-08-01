@@ -266,21 +266,21 @@ class _PatientDashboardState extends State<PatientDashboard> {
     }
   }
 
-  Future<void> _updateRecoveryPlan() async {
-    try {
-      User? user = _auth.currentUser;
-      if (user != null) {
-        CollectionReference recoveryPlanRef = _firestore
-            .collection('patients')
-            .doc(user.uid)
-            .collection('recoveryPlan');
-
-        await recoveryPlanRef.doc('currentPlan').set({'plan': recoveryPlan});
-      }
-    } catch (e) {
-      print('Error updating recovery plan: $e');
+Future<void> _updateRecoveryPlan() async {
+  try {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance
+          .collection('patients')
+          .doc(user.uid)
+          .collection('recoveryPlan')
+          .doc('plan')
+          .update({'plan': recoveryPlan});
     }
+  } catch (e) {
+    print('Error updating recovery plan: $e');
   }
+}
 
   Widget _buildActionButtons() {
     return Row(
@@ -300,17 +300,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
-        ElevatedButton.icon(
-          icon: Icon(Icons.chat),
-          label: Text('Chat with Doctor'),
-          onPressed: () {
-            // Implement chat functionality
-          },
-          style: ElevatedButton.styleFrom(
-            
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        ),
+      
       ],
     );
   }

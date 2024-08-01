@@ -33,7 +33,7 @@ class TrackingPage extends StatelessWidget {
  
  
 
-  // Bar Chart for Number of Tasks Per Day
+  
   Widget _buildTasksPerDayChart() {
     List<BarChartGroupData> barGroups = List.generate(recoveryPlan.length, (index) {
       var day = recoveryPlan[index];
@@ -66,7 +66,7 @@ class TrackingPage extends StatelessWidget {
     );
   }
 
-  // Line Chart for Growth Based on Tasks
+  
   Widget _buildGrowthChart() {
     return Container(
       height: 200,
@@ -99,7 +99,7 @@ class TrackingPage extends StatelessWidget {
     );
   }
 
-  // Overall Health Status Card
+  
   Widget _buildHealthStatusCard() {
     String overallStatus = _calculateOverallStatus();
     return Card(
@@ -120,7 +120,7 @@ class TrackingPage extends StatelessWidget {
     );
   }
 
-  // Daily Progress List
+  
   Widget _buildDailyProgressList() {
     return ListView.builder(
       shrinkWrap: true,
@@ -156,7 +156,7 @@ class TrackingPage extends StatelessWidget {
                 ...day['tasks'].map((task) => CheckboxListTile(
                       title: Text(task['description']),
                       value: task['completed'],
-                      onChanged: null,  // Read-only in tracking page
+                      onChanged: null,  
                     )).toList(),
               ],
             ),
@@ -166,7 +166,7 @@ class TrackingPage extends StatelessWidget {
     );
   }
 
-  // Calculate Overall Status
+  
   String _calculateOverallStatus() {
     double averageProgress = recoveryPlan.map((day) {
       double progressPercentage = double.tryParse(day['progressPercentage'].toString()) ?? 0.0;
@@ -179,7 +179,7 @@ class TrackingPage extends StatelessWidget {
     return 'Needs Improvement';
   }
 
-  // Get Status Color
+  
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Excellent':

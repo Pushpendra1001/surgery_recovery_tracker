@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   void _checkUserStatus() async {
     _user = _auth.currentUser;
     if (_user != null) {
-      // Fetch user role from Firestore
+      
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(_user!.uid).get();
       if (userDoc.exists) {
         setState(() {

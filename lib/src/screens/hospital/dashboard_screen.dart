@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:surgery_recovery_tracker/src/models/patient.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/create_doctor_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/create_patients_screen.dart';
+import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
 
 import 'package:surgery_recovery_tracker/src/services/firestore_service.dart';
 import 'package:surgery_recovery_tracker/src/utils/elevated_btn.dart';
@@ -14,6 +16,15 @@ class AdminDashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Hospital Dashboard'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              AuthService().signOut();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -46,7 +57,7 @@ class AdminDashboard extends StatelessWidget {
                       trailing: IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          // _db.deletePatient(patient.uid);
+                          
                         },
                       ),
                     );
