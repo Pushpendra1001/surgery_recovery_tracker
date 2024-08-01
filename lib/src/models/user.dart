@@ -1,7 +1,7 @@
 class UserModel {
   final String uid;
   final String email;
-  final String role; // 'admin', 'doctor', 'patient'
+  final String role; 
   
 
   UserModel({

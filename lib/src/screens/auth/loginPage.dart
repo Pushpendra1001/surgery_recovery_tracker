@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _checkUserStatus() async {
     _user = FirebaseAuth.instance.currentUser;
     if (_user != null) {
-      // Fetch user role from Firestore
+      
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(_user!.uid).get();
       if (userDoc.exists) {
         setState(() {
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DoctorDashboard()));
      
     } else {
-      // Handle other roles or show an error
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Unknown role: $_userRole')),
       );
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
         _user = userCredential.user;
         await _checkUserStatus();
       } catch (e) {
-        // Handle login error
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: $e')),
         );

@@ -6,6 +6,8 @@ import 'package:surgery_recovery_tracker/firebase_options.dart';
 import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 import 'package:surgery_recovery_tracker/src/screens/doctor/home_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/dashboard_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/hospital/view_doctor_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/hospital/view_patients_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
 
 Future<void> createAdminAccount() async {
@@ -36,10 +38,10 @@ Future<void> createAdminAccount() async {
         'role': 'admin',
       });
 
-    //   print('Admin account created successfully.');
-    // } else {
-    //   print('Error: $e');
-    // }
+    
+    
+    
+    
   }
 }
 

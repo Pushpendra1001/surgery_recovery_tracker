@@ -254,7 +254,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
               if (newTask.isNotEmpty) {
                 setState(() {
                   if (applyForAllDays) {
-                    // Add task for all days
+                    
                     for (int i = 1; i <= recoveryTimeInDays; i++) {
                       dailyTasks.add({
                         'description': newTask,
@@ -263,7 +263,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                       });
                     }
                   } else {
-                    // Add task for a specific day
+                    
                     dailyTasks.add({
                       'description': newTask,
                       'day': taskDay,
@@ -309,7 +309,7 @@ void _submitForm() async {
       await _db.setUserData(userModel);
       await _db.addPatient(patient);
       
-      // Generate recovery plan
+      
       List<Map<String, dynamic>> recoveryPlan = [];
       for (int i = 0; i < recoveryTimeInDays; i++) {
         DateTime currentDate = startDate!.add(Duration(days: i));
@@ -323,7 +323,7 @@ void _submitForm() async {
         });
       }
       
-      // Save recovery plan to Firestore
+      
       await FirebaseFirestore.instance
           .collection('patients')
           .doc(user.uid)
@@ -357,7 +357,7 @@ void _submitForm() async {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop(); // Return to previous screen
+                Navigator.of(context).pop(); 
               },
             ),
           ],

@@ -1,4 +1,4 @@
-// models/doctor.dart
+
 
 class Doctor {
   final String uid;
@@ -15,7 +15,7 @@ class Doctor {
     required this.hospital,
   });
 
-  // Factory method to create a Doctor instance from a Firestore document
+  
   factory Doctor.fromFirestore(Map<String, dynamic> data, String uid) {
     return Doctor(
       uid: uid,
@@ -26,7 +26,7 @@ class Doctor {
     );
   }
 
-  // Method to convert Doctor instance to a map for Firestore storage
+  
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,

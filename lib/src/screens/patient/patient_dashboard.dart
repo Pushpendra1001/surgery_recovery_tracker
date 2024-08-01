@@ -120,7 +120,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
               children: [
                 _buildPatientInfoCard(),
                 SizedBox(height: 20),
-                // _buildProgressIndicator(),
+                
                 SizedBox(height: 20),
                 _buildTodaysTasks(),
                 SizedBox(height: 20),
@@ -174,38 +174,38 @@ class _PatientDashboardState extends State<PatientDashboard> {
     );
   }
 
-  // Widget _buildProgressIndicator() {
-  //   return Card(
-  //     elevation: 4,
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             'Overall Progress',
-  //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-  //           ),
-  //           SizedBox(height: 16),
-  //           LinearPercentIndicator(
-  //             lineHeight: 20.0,
-  //             percent: healingPercentage,
-  //             center: Text(
-  //               '${(healingPercentage * 100).toStringAsFixed(1)}%',
-  //               style: TextStyle(fontWeight: FontWeight.bold),
-  //             ),
-  //             backgroundColor: Colors.grey[300],
-  //             progressColor: Colors.blue,
-  //             animation: true,
-  //             animationDuration: 1000,
-  //             barRadius: Radius.circular(10),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
     double calculateCompletionPercentage(List<Map<String, dynamic>> tasks) {
     if (tasks.isEmpty) return 0.0;
