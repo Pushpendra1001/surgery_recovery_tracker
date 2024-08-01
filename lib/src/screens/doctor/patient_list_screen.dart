@@ -121,14 +121,14 @@ class _PatientDetailScreenState extends State<PatientDetailScreen> {
                 
                 
               )).toList(),
-              ButtonBar(
-                children: [
-                  ElevatedButton(
-                    child: Text('Add Task'),
-                    onPressed: () => _addTask(index),
-                  ),
-                ],
-              ),
+              // ButtonBar(
+              //   children: [
+              //     ElevatedButton(
+              //       child: Text('Add Task'),
+              //       onPressed: () => _addTask(index),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         );
