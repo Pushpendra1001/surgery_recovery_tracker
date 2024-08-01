@@ -3,8 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:surgery_recovery_tracker/firebase_options.dart';
 import 'package:surgery_recovery_tracker/src/screens/MainScreen/main_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 import 'package:surgery_recovery_tracker/src/screens/auth/login_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/auth/register_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/hospital/dashboard_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
 import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
 import 'package:surgery_recovery_tracker/src/services/firestore_service.dart';
 
@@ -46,7 +49,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  LoginScreen(),
+      home:  PatientDashboard(),
     );
   }
 }

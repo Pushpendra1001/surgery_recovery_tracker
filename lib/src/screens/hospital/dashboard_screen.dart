@@ -3,6 +3,7 @@ import 'package:surgery_recovery_tracker/src/models/patient.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/create_patients_screen.dart';
 
 import 'package:surgery_recovery_tracker/src/services/firestore_service.dart';
+import 'package:surgery_recovery_tracker/src/utils/elevated_btn.dart';
 
 class AdminDashboard extends StatelessWidget {
   final FirestoreService _db = FirestoreService();
@@ -11,19 +12,21 @@ class AdminDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Dashboard'),
+        title: Text('Hospital Dashboard'),
       ),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreatePatientScreen()),
-              );
-            },
-            child: Text('Add Patient'),
-          ),
+          CustomElevatedButton(buttonText: "View Doctors", onPressed: (){}, height: 50, width: MediaQuery.of(context).size.width - 20),
+          CustomElevatedButton(buttonText: "View Patients", onPressed: (){}, height: 50, width: MediaQuery.of(context).size.width - 20),
+       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CustomElevatedButton(buttonText: "Add Doctor", onPressed: (){}, height: 50, width: (MediaQuery.of(context).size.width - 50) / 2),
+          CustomElevatedButton(buttonText: "Add Patient", onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreatePatientScreen()));
+          }, height: 50, width: (MediaQuery.of(context).size.width - 50) / 2),
+        ],
+       ),
           Expanded(
             child: StreamBuilder<List<PatientModel>>(
               stream: _db.getPatients(),

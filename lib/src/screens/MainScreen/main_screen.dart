@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       case 'doctor':
         return DoctorDashboard();
       case 'patient':
-        return PatientDashboard(uid: _user!.uid);
+        return PatientDashboard();
       default:
         return Scaffold(
           body: Center(
