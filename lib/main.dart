@@ -6,6 +6,7 @@ import 'package:surgery_recovery_tracker/src/screens/MainScreen/main_screen.dart
 import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 import 'package:surgery_recovery_tracker/src/screens/auth/login_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/auth/register_screen.dart';
+import 'package:surgery_recovery_tracker/src/screens/doctor/home_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/hospital/dashboard_screen.dart';
 import 'package:surgery_recovery_tracker/src/screens/patient/patient_dashboard.dart';
 import 'package:surgery_recovery_tracker/src/services/auth_service.dart';
@@ -19,24 +20,7 @@ void main() async {
   return runApp(const MyApp());
 }
 
-Future<void> createAdmin() async {
-  final AuthService _auth = AuthService();
-  final FirestoreService _db = FirestoreService();
-  String email = 'admin@gmail.com'; // replace with desired email
-  String password = 'admin123';  // replace with desired password
-  String name = 'Admin';         // replace with desired name
 
-  User? user = await _auth.registerWithEmailAndPassword(email, password);
-  if (user != null) {
-    await _db.setUserData(user.uid, {
-      'uid': user.uid,
-      'email': email,
-      'name': name,
-      'role': 'admin',
-    });
-    print('Admin account created successfully');
-  }
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -49,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  PatientDashboard(),
+      home:  AdminDashboard(),
     );
   }
 }

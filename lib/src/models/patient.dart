@@ -11,6 +11,7 @@ class PatientModel {
   final DateTime startDate;
   final DateTime endDate;
   final List<String> dailyTasks;
+  final String assignedDoctor;
 
   PatientModel({
     required this.uid,
@@ -25,6 +26,7 @@ class PatientModel {
     required this.startDate,
     required this.endDate,
     required this.dailyTasks,
+    required this.assignedDoctor,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +43,7 @@ class PatientModel {
       'startDate': startDate,
       'endDate': endDate,
       'dailyTasks': dailyTasks,
+      'assignedDoctor': assignedDoctor,
     };
   }
 
@@ -59,7 +62,7 @@ class PatientModel {
       startDate: map['startDate'].toDate(),
       endDate: map['endDate'].toDate(),
       dailyTasks: List<String>.from(map['dailyTasks']),
-      
+      assignedDoctor: map['assignedDoctor'],
       
     );
   }

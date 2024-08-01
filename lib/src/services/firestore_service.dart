@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:surgery_recovery_tracker/src/models/doctor.dart';
 import 'package:surgery_recovery_tracker/src/models/patient.dart';
 import 'package:surgery_recovery_tracker/src/models/user.dart';
 
@@ -7,8 +8,8 @@ class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Set user data
-  Future<void> setUserData(String uid, Map<String, dynamic> data) async {
-    await _db.collection('users').doc(uid).set(data);
+  Future<void> setUserData(UserModel user) async {
+    await _db.collection('users').doc(user.uid).set(user.toMap());
   }
 
   // Add patient
@@ -21,6 +22,16 @@ class FirestoreService {
     return _db.collection('patients').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => PatientModel.fromMap(doc.data())).toList();
     });
+  }
+
+  Future<void> addDoctor(Map<String, dynamic> doctorData) async {
+    await _db.collection('doctors').doc(doctorData['uid']).set(doctorData);
+  }
+
+  // Method to fetch doctor data from Firestore
+  Future<Doctor> getDoctor(String uid) async {
+    DocumentSnapshot doc = await _db.collection('doctors').doc(uid).get();
+    return Doctor.fromFirestore(doc.data() as Map<String, dynamic>, doc.id);
   }
 
   // Get user by uid

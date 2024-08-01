@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:surgery_recovery_tracker/src/screens/auth/loginPage.dart';
 
 class PatientDashboard extends StatefulWidget {
   @override
@@ -86,7 +87,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {
               await _auth.signOut();
-              Navigator.of(context).pushReplacementNamed('/login');
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
             },
           ),
         ],
@@ -158,40 +159,85 @@ class _PatientDashboardState extends State<PatientDashboard> {
     );
   }
 
+  // Widget _buildTaskCheckbox(Map<String, dynamic> task) {
+  //   return CheckboxListTile(
+  //     title: Text(task['description']),
+  //     value: task['completed'],
+  //     onChanged: (bool? value) {
+  //       setState(() {
+  //         task['completed'] = value;
+  //       });
+  //       _updateTaskCompletion(task , value);
+  //     },
+  //   );
+  // }
   Widget _buildTaskCheckbox(Map<String, dynamic> task) {
-    return CheckboxListTile(
-      title: Text(task['description']),
-      value: task['completed'],
-      onChanged: (bool? value) {
-        setState(() {
-          task['completed'] = value;
-        });
-        _updateTaskCompletion(task);
-      },
-    );
-  }
+  return CheckboxListTile(
+    title: Text(task['description']),
+    value: task['completed'],
+    onChanged: (bool? value) {
+      _updateTaskCompletion(task, value);
+    },
+  );
+}
 
-  Future<void> _updateTaskCompletion(Map<String, dynamic> task) async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      await _firestore
+
+  // Future<void> _updateTaskCompletion(Map<String, dynamic> task) async {
+  //   User? user = _auth.currentUser;
+  //   if (user != null) {
+  //     await _firestore
+  //         .collection('patients')
+  //         .doc(user.uid)
+  //         .collection('recoveryPlan')
+  //         .doc(task['date'])
+  //         .update({
+  //       'tasks': FieldValue.arrayRemove([task]),
+  //     });
+  //     await _firestore
+  //         .collection('patients')
+  //         .doc(user.uid)
+  //         .collection('recoveryPlan')
+  //         .doc(task['date'])
+  //         .update({
+  //       'tasks': FieldValue.arrayUnion([task]),
+  //     });
+  //   }
+    
+  // }
+
+  void _updateTaskCompletion(Map<String, dynamic> task, bool? value) async {
+  User? user = _auth.currentUser;
+  if (user != null) {
+    // Update the local state
+    setState(() {
+      task['completed'] = value;
+    });
+
+    // Update the task in Firestore
+    await _firestore.runTransaction((transaction) async {
+      DocumentReference taskDocRef = _firestore
           .collection('patients')
           .doc(user.uid)
           .collection('recoveryPlan')
-          .doc(task['date'])
-          .update({
-        'tasks': FieldValue.arrayRemove([task]),
-      });
-      await _firestore
-          .collection('patients')
-          .doc(user.uid)
-          .collection('recoveryPlan')
-          .doc(task['date'])
-          .update({
-        'tasks': FieldValue.arrayUnion([task]),
-      });
-    }
+          .doc(task['date']);
+      
+      DocumentSnapshot taskDocSnapshot = await transaction.get(taskDocRef);
+      if (taskDocSnapshot.exists) {
+        List<dynamic> tasks = taskDocSnapshot['tasks'];
+        int taskIndex = tasks.indexWhere((t) => t['description'] == task['description']);
+        if (taskIndex != -1) {
+          tasks[taskIndex]['completed'] = value;
+          transaction.update(taskDocRef, {'tasks': tasks});
+        }
+      }
+    });
   }
+}
+
+
+  
+
+  
 
   Widget _buildActionButtons() {
     return Row(
